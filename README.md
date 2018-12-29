@@ -8,17 +8,32 @@ The amount of directories you have to open to get to samples is ridiculous and m
 
 ## Organization
 ### Sample Directories
-All samples are put into a directory depending on the names listed in `sample_directory_list.txt`
-Each name is also used to compare directly against a sample filename to see which directory it should go.
-* ie. All files with 'snare' in them with go into the 'snare' directory.
+Idea is to define a set of directories like `snare` `ride` or `hat` and for any sample that contains the names of these folders
+put them in the corresponding directory.
+For example:
 ```
+Directories: 
+sample_directory/
+---/snare
+---/ride 
+---/hat
+
+Files:
     snare1.wav 
     fat_snare.wav 
     GoToSnare.wav               ----all placed--->      'YourSamplePath/snare' directory`
     badly-named-snare.wav 
     my snare.wav  
 
+    my hat.wav  
+    hihat.wav               ----all placed--->      'sample_directory/hat' directory`
+    open-hat.wav  
+
+    GoToRide.wav  
+    ride.wav               ----all placed--->      'sample_directory/ride' directory`
 ```
+
+All samples are put into a directory depending on the names listed in `sample_directory_list.txt`
 
 I am only detecting if a string is in a filename (string contains) for this python app. Nothing fancy.
 
@@ -32,14 +47,20 @@ These text files increase the amount of strings to compare against to add to a s
 ie. `percussion.txt` contains `shaker`, `clave`, and `block`
 `shaker.wav clave.wav block.wav` now all go into the `percussion` folder.
 
-## Example Modification
-## Adding a new directory for samples with multiple strings
+## Customize Organization 
+### Adding a new directory for samples with multiple strings
 **uhh maybe write cli for this**
 - Pick a good name that will map uniquely to some sample filenames, for example let's try `animal`
 - Add the name (`animal`) to `sample_directory_list.txt`
 - Add a file called `animal.txt` into the `strings` directory
 - Add some more good strings into `animal.txt` that may match animals like `dog` `bark` `roar` `meow`
-    - Now filenames like `animal.wav dog_barking.wav LionRoar.wav cat-meow.wav` will all be ready to go into a folder called `animal`
+- Now
+    ```
+    animal.wav 
+    dog_barking.wav 
+    LionRoar.wav              ------all placed into -------->              /animals
+    cat-meow.wav` 
+    ```
 - Use the python app on the command line to move or copy the files to your organization following this new setup.
 
 
