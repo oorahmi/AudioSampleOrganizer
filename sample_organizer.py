@@ -28,7 +28,7 @@ sample_organizer move_samples <source_directory> <destination_directory>
 sample_organizer reorganize <organized_sample_directory> <new_directory_name> 
  - Used if you have a new directory and want to check all samples to see if they match that name and reorganize.
    ie. made a new dir called 'tamborine' so find all my organized samples that have 'tamborine' and put them in new dir.
- - doesn't take capital letters seriously
+ - doesn't take capital letters seriously, i guess just like your os.
 '''
 from operator import itemgetter
 import re
@@ -39,45 +39,29 @@ import errno
 import sys
 import pprint
 
-# This is the master list, be careful
-# each entry is a directory you would like to organize samples into
-sample_directories = [
-    'unknown',
-    'snare',
-    'kick',
-    'ride', 
-    'hat',
-    'crash',
-    'cymbal',
-    'tom', 
-    'percussion',
-    'drumloop',
-    'vocal', 
-    'chime',
-    '808',
-    'sfx',
-    'atmosphere'
-    ]
-
-# defining multiple strings to correspond to these categories
-vocal_strings = ['voice', 'singer', 'opera', 'whistle'] 
-sfx_strings = ['thingy', 'ding', 'cassete', 'ruler', 'crumple', 'scratch', 'shuffle']
-percussion_strings = ['perc', 'clap', 'tambourine', 'clave','shaker', 'snap', 'block', 'sidestick']
-atmosphere_strings = ['thunder', 'rain', 'cafe', 'birds', 'ocean', 'waves', 
-    'forest', 'wind', 'waves', 'environments', 'ambience', 'campfire', 'announcements']
-
 # want to skip errant files like .asd, .ds_store
 allowed_file_extensions = {'.mp3', '.wav', '.aif'}
 
-
 def main(args):
-    sample_directories = []
-    with open(os.path.join(os.getcwd(),'sample_directory_list.txt'), 'r') as sample_directory_list_file:
-        for line in sample_directory_list_file.readlines():
-            sample_directories.append(line.strip())
-    sample_directories = sorted(sample_directories)
-    print(sample_directories)
 
+    # gather all organizational data
+    sample_directories = []
+    with open(os.path.join(os.getcwd(), 'sample_directory_list.txt'),'r') as sample_directory_list_file:
+        for line in sample_directory_list_file.readlines():
+            sample_directories.append(line.rstrip())
+
+    strings_dict = {}
+    string_filenames = []
+    for root, dirs, files in os.walk(os.path.join(os.getcwd(), 'strings')):
+        for name in files:
+            string_filenames.append(os.path.join(root, name))
+
+    for filename in string_filenames:
+        with open(filename, 'r') as strings_file:
+            string_type = os.path.splitext(os.path.basename(strings_file.name))[0]
+            strings_dict[string_type] = []
+            for line in strings_file.readlines():
+                strings_dict[string_type].append(line.rstrip())
 
     def recursiveSearch(path):
         #TODO: maybe skip a favorites directory?
@@ -105,7 +89,7 @@ def main(args):
             #os.makedirs(os.path.dirname(sample_parent_dir), exist_ok=True)
 
         for sample_filename in sample_filenames:
-            lowered_sample_filename = sample_filename.lower()
+            lowered_sample_endname = os.path.splitext(os.path.basename(sample_filename))[0].lower()
             sample_dir_index = 0
             sample_directory = ''
             matched = False
@@ -114,26 +98,12 @@ def main(args):
 
                 # check that the sample name contains
                 # NOTE: slow performance here
-                if sample_directory in lowered_sample_filename:
+                
+                if sample_directory in lowered_sample_endname:
                     matched = True
-                elif sample_directory == 'sfx':
-                    for matcher_string in sfx_strings:
-                        if matcher_string in lowered_sample_filename:
-                            matched = True
-                            break
-                elif sample_directory == 'percussion':
-                    for matcher_string in percussion_strings:
-                        if matcher_string in lowered_sample_filename:
-                            matched = True
-                            break
-                elif sample_directory == 'atmosphere':
-                    for matcher_string in atmosphere_strings:
-                        if matcher_string in lowered_sample_filename:
-                            matched = True
-                            break
-                elif sample_directory == 'vocal':
-                    for matcher_string in vocal_strings:
-                        if matcher_string in lowered_sample_filename:
+                elif sample_directory in strings_dict:
+                    for matcher_string in strings_dict[sample_directory]:
+                        if matcher_string in lowered_sample_endname:
                             matched = True
                             break
 
