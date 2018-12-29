@@ -1,0 +1,15 @@
+unknown
+snare
+kick
+ride
+hat
+crash
+cymbal
+tom
+percussion
+loop
+vocal
+chime
+808
+sfx
+atmosphere

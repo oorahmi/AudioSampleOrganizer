@@ -1,0 +1,9 @@
+perc
+rim
+clap
+tambourine
+clave
+shaker
+snap
+block
+sidestick
