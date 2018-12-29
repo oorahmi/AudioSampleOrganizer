@@ -110,7 +110,7 @@ def main(args):
                 sample_dir_index += 1
             
             just_end_filename = os.path.basename(sample_filename)
-            end_destination = ''
+            end_file_destination = ''
 
             if move_files:
                 # no match?
