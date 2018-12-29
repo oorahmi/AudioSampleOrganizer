@@ -197,6 +197,7 @@ def main(args):
     elif args[0] == 'reorganize':
         organized_sample_directory = args[1]
         organize_string = args[2].lower()
+        #TODO: add to sample_directory_list.txt ?
         # make new dir
         try:
             os.makedirs(os.path.join(organized_sample_directory, organize_string))
@@ -204,7 +205,6 @@ def main(args):
             if e.errno != errno.EEXIST:
                 raise
 
-        # Scan my samples dir 
         recursiveSearch(organized_sample_directory)
 
         for sample_filename in sample_filenames:
