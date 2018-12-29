@@ -42,11 +42,21 @@ The order of names in `sample_directory_list.txt` may matter if you have some ba
 `hihat_snare.wav` would go into `snare` based on the current order.
 
 ### Use multiple strings
-Sample folders can also match against several strings if you define a new file in the `strings` directory
+Sample folders can also match against several strings if you define a new file in the `strings` directory.
 Files in the `strings` directory correspond to folders defined by `sample_directory_list.txt`
 These text files increase the amount of strings to compare against to add to a sample directory.
-ie. `percussion.txt` contains `shaker`, `clave`, and `block`
-`shaker.wav clave.wav block.wav` now all go into the `percussion` folder.
+
+*For example:*
+```
+percussion.txt = 
+shaker
+clave
+block
+
+shaker.wav
+clave.wav               ----- all placed into ---->  /percussion
+block.wav
+```
 
 ## Customize Organization 
 ### Adding a new directory for samples with multiple strings
