@@ -6,6 +6,7 @@ crash
 cymbal
 tom
 percussion
+brass
 loop
 vocal
 chime

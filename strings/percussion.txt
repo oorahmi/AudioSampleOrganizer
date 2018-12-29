@@ -6,4 +6,5 @@ clave
 shaker
 snap
 block
+cowbell
 sidestick

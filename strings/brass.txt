@@ -1,0 +1,8 @@
+trumpet
+trombone
+saxophone
+sax
+horn
+tuba
+cornet
+bugle
