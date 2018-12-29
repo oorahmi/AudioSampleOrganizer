@@ -1,6 +1,6 @@
 # AudioSampleOrganizer
 * Moves samples based on their names to corresponding directory you can define
-  * Moves/Copies all `.mp3` `.wav`, and `.aif` files found under a directory
+  * Moves/Copies all `.mp3` `.wav`, and `.aif` files found under a directory to whereever.
 * Print out strings and their frequency from your sample filenames
 
 Useful if you're downloading from splice or somewhere and don't care what the pack names are anymore and just want to flatten the hierarchy.
