@@ -59,6 +59,9 @@ def main(args):
     for filename in string_filenames:
         with open(filename, 'r') as strings_file:
             string_type = os.path.splitext(os.path.basename(strings_file.name))[0]
+            if string_type not in sample_directories:
+                print('Error: ', filename, ' not found to match a directory in sample_directory_list.txt')
+                continue
             strings_dict[string_type] = []
             for line in strings_file.readlines():
                 strings_dict[string_type].append(line.rstrip())
