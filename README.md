@@ -22,7 +22,7 @@ sample_directory/
 Files:
     snare1.wav 
     fat_snare.wav 
-    GoToSnare.wav               ----all placed--->      'YourSamplePath/snare' directory`
+    GoToSnare.wav               ----all placed--->      'sample_directory/snare' directory`
     badly-named-snare.wav 
     my snare.wav  
 
