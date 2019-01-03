@@ -80,10 +80,14 @@ block.wav
 
 ### Install
 * *Requirements*
-    * Python 3+ (I wrote this with python 3.7) 
+    * Python 3+ (I wrote this with python 3.7)  
 
-Clone this repository somewhere on your machine, preferably near your samples 
+Download this repository (link above this readme) 
+or
+Clone this repository 
 `git clone https://github.com/oorahmi/AudioSampleOrganizer.git`
+
+
 
 # Command Line Usage 
 
@@ -98,7 +102,7 @@ python sample_organizer.py organize_samples_copy source_directory destination_di
 
 ### Move Samples
 ```
-python sample_organizer.py orgranize_samples_move source_directory destination_directory
+python sample_organizer.py organize_samples_move source_directory destination_directory
 ```
  - little more dangerous
  - take samples from source and move them in destination based on your sample_directories list 
