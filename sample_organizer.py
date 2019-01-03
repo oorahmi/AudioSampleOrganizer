@@ -181,13 +181,13 @@ def main(args):
         pprint.pprint(sorted(strings_frequency_dict.items(), key=itemgetter(1)))
     
     # move sample files to directories based on directory names
-    elif args[0] == 'copy_samples':
+    elif args[0] == 'organize_samples_copy':
         source = args[1]
         destination = args[2]
         recursiveSearch(source)
         matchAndProcessSamples(destination, False)
 
-    elif args[0] == 'move_samples':
+    elif args[0] == 'organized_samples_move':
         #TODO: pretty scary, add warning
         source = args[1]
         destination = args[2]

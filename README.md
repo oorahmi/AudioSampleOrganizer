@@ -35,6 +35,8 @@ Files:
 ```
 
 All samples are put into a directory depending on the names listed in `sample_directory_list.txt`
+I picked my names/organization based by looking at results of my `sample_organizer.py stat` output.
+You may want to do this for your own samples and pick different names.
 
 I am only detecting if a string is in a filename (string contains) for this python app. Nothing fancy.
 
@@ -88,7 +90,7 @@ Clone this repository somewhere on your machine, preferably near your samples
 
 ### Copy Samples
 ```
-sample_organizer.py copy_samples source_directory destination_directory
+python sample_organizer.py organize_samples_copy source_directory destination_directory
 ```
  - Take samples from source and copy them in destination based on your sample_directories list 
  - Destination is the top level directory of where you're putting all your samples
@@ -96,7 +98,7 @@ sample_organizer.py copy_samples source_directory destination_directory
 
 ### Move Samples
 ```
-sample_organizer.py move_samples source_directory destination_directory
+python sample_organizer.py orgranize_samples_move source_directory destination_directory
 ```
  - little more dangerous
  - take samples from source and move them in destination based on your sample_directories list 
@@ -108,7 +110,7 @@ sample_organizer.py move_samples source_directory destination_directory
 
 ### Reorganize Samples
 ```
-sample_organizer.py reorganize organized_sample_directory new_directory_name
+python sample_organizer.py reorganize organized_sample_directory new_directory_name
 ```
  - ...thinking about this...
  - partial reorganize
@@ -118,7 +120,7 @@ sample_organizer.py reorganize organized_sample_directory new_directory_name
 
 ### Samples Statistics
 ```
-sample_organizer stat sample_directory_1  sample_directory_2 ... sample_directory_n
+python sample_organizer.py stat sample_directory_1  sample_directory_2 ... sample_directory_n
 ```
  - get a listing of common strings that occur for your sample library 
  - useful to see how you may want to organize your sample library and edit folder names in `sample_directory_list` or files in `strings`

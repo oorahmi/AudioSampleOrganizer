@@ -5,6 +5,7 @@ hat
 crash
 cymbal
 tom
+rim
 percussion
 brass
 loop
