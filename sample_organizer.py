@@ -14,12 +14,12 @@ each entry in this list corresponds
 sample_organizer stat <sample_directory_1>  <sample_directory_2> ...
  - get a listing of common strings that occur for your sample library 
 
-sample_organizer copy_samples <source_directory> <destination_directory> 
+sample_organizer copy <source_directory> <destination_directory> 
  - take samples from source and copy them in destination based on your sample_directories list 
  - destination is the top level directory of where you're putting all your samples
     ie. destination/snare, destination/hat, ... and so on
 
-sample_organizer move_samples <source_directory> <destination_directory> 
+sample_organizer move <source_directory> <destination_directory> 
  - little more dangerous
  - take samples from source and move them in destination based on your sample_directories list 
  - destination is the top level directory of where you're putting all your samples
@@ -181,13 +181,13 @@ def main(args):
         pprint.pprint(sorted(strings_frequency_dict.items(), key=itemgetter(1)))
     
     # move sample files to directories based on directory names
-    elif args[0] == 'organize_samples_copy':
+    elif args[0] == 'copy':
         source = args[1]
         destination = args[2]
         recursiveSearch(source)
         matchAndProcessSamples(destination, False)
 
-    elif args[0] == 'organized_samples_move':
+    elif args[0] == 'move':
         #TODO: pretty scary, add warning
         source = args[1]
         destination = args[2]

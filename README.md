@@ -94,7 +94,7 @@ Clone this repository
 
 ### Copy Samples
 ```
-python sample_organizer.py organize_samples_copy source_directory destination_directory
+python sample_organizer.py copy source_directory destination_directory
 ```
  - Take samples from source and copy them in destination based on your sample_directories list 
  - Destination is the top level directory of where you're putting all your samples
@@ -102,7 +102,7 @@ python sample_organizer.py organize_samples_copy source_directory destination_di
 
 ### Move Samples
 ```
-python sample_organizer.py organize_samples_move source_directory destination_directory
+python sample_organizer.py move source_directory destination_directory
 ```
  - little more dangerous
  - take samples from source and move them in destination based on your sample_directories list 
