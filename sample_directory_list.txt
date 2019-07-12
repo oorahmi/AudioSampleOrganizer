@@ -8,6 +8,7 @@ tom
 rim
 percussion
 brass
+cello
 loop
 vocal
 chime
