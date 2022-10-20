@@ -8,20 +8,20 @@ since the amount of directories you have to open to get to samples
 is ridiculous and makes me not listen to any samples.
 Useful if you're downloading from splice or somewhere and don't care what the pack names are anymore
 
-To change how your files are organized modify the global list: sample_directories
+To change how your files are organized modify the global list: sample_directories_
 each entry in this list corresponds
 
 sample_organizer stat <sample_directory_1>  <sample_directory_2> ...
  - get a listing of common strings that occur for your sample library 
 
 sample_organizer copy <source_directory> <destination_directory> 
- - take samples from source and copy them in destination based on your sample_directories list 
+ - take samples from source and copy them in destination based on your sample_directories_ list 
  - destination is the top level directory of where you're putting all your samples
     ie. destination/snare, destination/hat, ... and so on
 
 sample_organizer move <source_directory> <destination_directory> 
  - little more dangerous
- - take samples from source and move them in destination based on your sample_directories list 
+ - take samples from source and move them in destination based on your sample_directories_ list 
  - destination is the top level directory of where you're putting all your samples
     ie. destination/snare, destination/hat, ... and so on
 
@@ -40,33 +40,35 @@ import sys
 import pprint
 
 # want to skip errant files like .asd, .ds_store
-allowed_file_extensions = {'.mp3', '.wav', '.aif'}
+allowed_file_extensions_ = {'.mp3', '.wav', '.aif'}
 
 def main(args):
 
     # gather all organizational data
-    sample_directories = []
+    sample_directories_ = []
     with open(os.path.join(os.getcwd(), 'sample_directory_list.txt'),'r') as sample_directory_list_file:
         for line in sample_directory_list_file.readlines():
-            sample_directories.append(line.rstrip())
+            sample_directories_.append(line.rstrip())
 
-    strings_dict = {}
-    string_filenames = []
+# store all string files together
+    strings_dict_ = {}
+    string_filenames_ = []
     for root, dirs, files in os.walk(os.path.join(os.getcwd(), 'strings')):
         for name in files:
-            string_filenames.append(os.path.join(root, name))
+            string_filenames_.append(os.path.join(root, name))
 
-    for filename in string_filenames:
+    # build strings dictionary to map title to multiple strings
+    for filename in string_filenames_:
         with open(filename, 'r') as strings_file:
             string_type = os.path.splitext(os.path.basename(strings_file.name))[0]
-            if string_type not in sample_directories:
+            if string_type not in sample_directories_:
                 print('Error: ', filename, ' not found to match a directory in sample_directory_list.txt')
                 continue
-            strings_dict[string_type] = []
+            strings_dict_[string_type] = []
             for line in strings_file.readlines():
-                strings_dict[string_type].append(line.rstrip())
+                strings_dict_[string_type].append(line.rstrip())
 
-    def recursiveSearch(path):
+    def recursiveSampleGather(path):
         #TODO: maybe skip a favorites directory?
         # prob not since this whole script is meant to just begin to organize your sample library
         # from which then you should customize on your own. This organization is a good buffer to browsing.
@@ -75,12 +77,12 @@ def main(args):
                 sample_filename = os.path.join(root, name)
                 file_extension = os.path.splitext(os.path.basename(sample_filename))[1]  
 
-                if file_extension in allowed_file_extensions:
-                    sample_filenames.append(sample_filename)
+                if file_extension in allowed_file_extensions_:
+                    sample_filenames_.append(sample_filename)
 
     def matchAndProcessSamples(destination, move_files):
         # create all destination directories, if they don't exist
-        for sample_directory in sample_directories:
+        for sample_directory in sample_directories_:
             sample_parent_dir = os.path.join(destination, sample_directory)
             try:
                 os.makedirs(sample_parent_dir)
@@ -91,21 +93,21 @@ def main(args):
             #NOTE: failed on windows 10, uhhh
             #os.makedirs(os.path.dirname(sample_parent_dir), exist_ok=True)
 
-        for sample_filename in sample_filenames:
+        for sample_filename in sample_filenames_:
             lowered_sample_endname = os.path.splitext(os.path.basename(sample_filename))[0].lower()
             sample_dir_index = 0
             sample_directory = ''
             matched = False
-            while(sample_dir_index < len(sample_directories) and not matched):
-                sample_directory = sample_directories[sample_dir_index]
+            while(sample_dir_index < len(sample_directories_) and not matched):
+                sample_directory = sample_directories_[sample_dir_index]
 
                 # check that the sample name contains
                 # NOTE: slow performance here
                 
                 if sample_directory in lowered_sample_endname:
                     matched = True
-                elif sample_directory in strings_dict:
-                    for matcher_string in strings_dict[sample_directory]:
+                elif sample_directory in strings_dict_:
+                    for matcher_string in strings_dict_[sample_directory]:
                         if matcher_string in lowered_sample_endname:
                             matched = True
                             break
@@ -117,7 +119,7 @@ def main(args):
 
             if move_files:
                 # no match?
-                if sample_dir_index == len(sample_directories):
+                if sample_dir_index == len(sample_directories_):
                     end_file_destination = os.path.join(destination, 'unknown', just_end_filename)
                 else:
                     end_file_destination = os.path.join(destination, sample_directory, just_end_filename)
@@ -126,7 +128,7 @@ def main(args):
                     os.rename(sample_filename, end_file_destination)
             else:
                 # no match?
-                if sample_dir_index == len(sample_directories):
+                if sample_dir_index == len(sample_directories_):
                     end_file_destination = os.path.join(destination, 'unknown', just_end_filename)
                 else:
                     end_file_destination = os.path.join(destination, sample_directory, just_end_filename)
@@ -134,7 +136,7 @@ def main(args):
                     shutil.copy(sample_filename, end_file_destination) 
 
 
-    sample_filenames = []
+    sample_filenames_ = []
 
     if args[0] == 'stat':
         '''
@@ -143,15 +145,15 @@ def main(args):
         make a snare dir and throw them there.
         '''
         for directory in args[1:]:
-            recursiveSearch(directory)
-        #sample_filenames = ['ThisIsATest_haha_yeah_a_b', 'NumberTwo','haha_haha_Haha_three', 'so-snare-boy-high', 'kick this kid']
+            recursiveSampleGather(directory)
+        #sample_filenames_ = ['ThisIsATest_haha_yeah_a_b', 'NumberTwo','haha_haha_Haha_three', 'so-snare-boy-high', 'kick this kid']
 
         #TODO: think about organizing or statting by parent directory name of samples
 
-        strings_frequency_dict = OrderedDict() # interesting strings! 
+        strings_frequency_dict_ = OrderedDict() # interesting strings! 
 
         # based on name
-        for sample_name in sample_filenames:
+        for sample_name in sample_filenames_:
             # get end without extension
             sample_name = os.path.splitext(os.path.basename(sample_name))[0]
 
@@ -173,25 +175,25 @@ def main(args):
             # gather string frequencies
             for string in best_splits:
                 string = string.lower()
-                if string in strings_frequency_dict:
-                    strings_frequency_dict[string] += 1
+                if string in strings_frequency_dict_:
+                    strings_frequency_dict_[string] += 1
                 else:
-                    strings_frequency_dict[string] = 1
+                    strings_frequency_dict_[string] = 1
 
-        pprint.pprint(sorted(strings_frequency_dict.items(), key=itemgetter(1)))
+        pprint.pprint(sorted(strings_frequency_dict_.items(), key=itemgetter(1)))
     
     # move sample files to directories based on directory names
     elif args[0] == 'copy':
         source = args[1]
         destination = args[2]
-        recursiveSearch(source)
+        recursiveSampleGather(source)
         matchAndProcessSamples(destination, False)
 
     elif args[0] == 'move':
         #TODO: pretty scary, add warning
         source = args[1]
         destination = args[2]
-        recursiveSearch(source)
+        recursiveSampleGather(source)
         matchAndProcessSamples(destination, True)
 
 
@@ -208,9 +210,9 @@ def main(args):
             if e.errno != errno.EEXIST:
                 raise
 
-        recursiveSearch(organized_sample_directory)
+        recursiveSampleGather(organized_sample_directory)
 
-        for sample_filename in sample_filenames:
+        for sample_filename in sample_filenames_:
             just_end_filename = os.path.basename(sample_filename)
             if organize_string in sample_filename.lower():
                 # move file
